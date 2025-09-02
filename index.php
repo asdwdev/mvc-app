@@ -10,11 +10,10 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $router = new Router();
 
-// daftar route dengan method
-$router->add("GET", "/", HomeController::class, "index");
-$router->add("GET", "/users", UserController::class, "index");
-$router->add("GET", "/users/{id}", UserController::class, "show");
-$router->add("POST", "/users", UserController::class, "store");
+// daftar route lebih simple
+$router->get("/", HomeController::class, "index");
+$router->get("/users", UserController::class, "index");
+$router->get("/users/{id}", UserController::class, "show");
+$router->post("/users", UserController::class, "store");
 
-// jalankan router
 $router->dispatch($path, $method);

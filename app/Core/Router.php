@@ -12,6 +12,16 @@ class Router
         $this->routes[$method][$path] = [$controller, $action];
     }
 
+    public function get($path, $controller, $action)
+    {
+        $this->add("GET", $path, $controller, $action);
+    }
+
+    public function post($path, $controller, $action)
+    {
+        $this->add("POST", $path, $controller, $action);
+    }
+
     public function dispatch($currentPath, $requestMethod)
     {
         $requestMethod = strtoupper($requestMethod);
