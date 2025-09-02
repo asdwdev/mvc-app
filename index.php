@@ -1,33 +1,18 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
+use App\Core\Router;
 use App\Controllers\HomeController;
-use App\Controllers\PostController;
 use App\Controllers\UserController;
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-$routes = [
-    "/" => [HomeController::class, "index"],
-    "/users" => [UserController::class, "index"],
-    "/users/{id}" => [UserController::class, "show"],
-    // contoh lain:
-    "/posts/{slug}" => [PostController::class, "detail"],
-];
+$router = new Router();
 
-// cek semua route
-foreach ($routes as $route => [$controller, $method]) {
-    // ubah {param} jadi regex
-    $pattern = preg_replace("#{[a-zA-Z_]+}#", "([^/]+)", $route);
-    $pattern = "#^" . $pattern . "$#";
+// daftar route
+$router->add("/", HomeController::class, "index");
+$router->add("/users", UserController::class, "index");
+$router->add("/users/{id}", UserController::class, "show");
 
-    if (preg_match($pattern, $path, $matches)) {
-        array_shift($matches); // buang hasil full match
-        (new $controller())->$method(...$matches);
-        exit;
-    }
-}
-
-// kalau gak ada yang cocok
-http_response_code(404);
-echo "404 Not Found";
+// jalankan router
+$router->dispatch($path);
