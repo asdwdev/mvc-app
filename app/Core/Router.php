@@ -22,6 +22,16 @@ class Router
         $this->add("POST", $path, $controller, $action);
     }
 
+    public function put($path, $controller, $action)
+    {
+        $this->add("PUT", $path, $controller, $action);
+    }
+
+    public function delete($path, $controller, $action)
+    {
+        $this->add("DELETE", $path, $controller, $action);
+    }
+
     public function dispatch($currentPath, $requestMethod)
     {
         $requestMethod = strtoupper($requestMethod);

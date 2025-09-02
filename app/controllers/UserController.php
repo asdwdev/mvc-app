@@ -30,4 +30,18 @@ class UserController
         $name = $_POST['name'] ?? "Anonim";
         echo "User baru berhasil ditambahkan: " . $name;
     }
+
+    public function update($id)
+    {
+        // ambil body request (PUT biasanya raw data)
+        $data = json_decode(file_get_contents("php://input"), true);
+        $name = $data['name'] ?? "Anonim";
+
+        echo "User dengan ID {$id} berhasil diupdate jadi: {$name}";
+    }
+
+    public function destroy($id)
+    {
+        echo "User dengan ID {$id} berhasil dihapus.";
+    }
 }
