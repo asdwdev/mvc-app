@@ -6,21 +6,30 @@ class Router
 {
     private $routes = [];
 
-    public function add($path, $controller, $method)
+    public function add($method, $path, $controller, $action)
     {
-        $this->routes[$path] = [$controller, $method];
+        $method = strtoupper($method);
+        $this->routes[$method][$path] = [$controller, $action];
     }
 
-    public function dispatch($currentPath)
+    public function dispatch($currentPath, $requestMethod)
     {
-        foreach ($this->routes as $route => [$controller, $method]) {
+        $requestMethod = strtoupper($requestMethod);
+
+        if (!isset($this->routes[$requestMethod])) {
+            http_response_code(405);
+            echo "405 Method Not Allowed";
+            return;
+        }
+
+        foreach ($this->routes[$requestMethod] as $route => [$controller, $action]) {
             // ubah {param} jadi regex
             $pattern = preg_replace("#{[a-zA-Z_]+}#", "([^/]+)", $route);
             $pattern = "#^" . $pattern . "$#";
 
             if (preg_match($pattern, $currentPath, $matches)) {
-                array_shift($matches); // buang full match
-                (new $controller())->$method(...$matches);
+                array_shift($matches);
+                (new $controller())->$action(...$matches);
                 return;
             }
         }
