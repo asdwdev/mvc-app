@@ -11,8 +11,10 @@ class UserController
         $userModel = new User();
         $users = $userModel->getAllUsers();
 
+        echo "<h1>Daftar User</h1><ul>";
         foreach ($users as $user) {
-            echo $user['id'] . " - " . $user['name'] . "<br>";
+            echo "<li>{$user['id']} - {$user['name']}</li>";
         }
+        echo "</ul>";
     }
 }
