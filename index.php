@@ -10,12 +10,10 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $router = new Router();
 
-// contoh routes CRUD user
+// route biasa
 $router->get("/", HomeController::class, "index");
-$router->get("/users", UserController::class, "index");   // list
-$router->get("/users/{id}", UserController::class, "show"); // detail
-$router->post("/users", UserController::class, "store"); // create
-$router->put("/users/{id}", UserController::class, "update"); // update
-$router->delete("/users/{id}", UserController::class, "destroy"); // delete
+
+// 🚀 resource route
+$router->resource("/users", UserController::class);
 
 $router->dispatch($path, $method);

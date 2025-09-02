@@ -32,6 +32,16 @@ class Router
         $this->add("DELETE", $path, $controller, $action);
     }
 
+    // 🚀 resource helper
+    public function resource($basePath, $controller)
+    {
+        $this->get($basePath, $controller, "index");         // list
+        $this->get($basePath . "/{id}", $controller, "show"); // detail
+        $this->post($basePath, $controller, "store");         // create
+        $this->put($basePath . "/{id}", $controller, "update"); // update
+        $this->delete($basePath . "/{id}", $controller, "destroy"); // delete
+    }
+
     public function dispatch($currentPath, $requestMethod)
     {
         $requestMethod = strtoupper($requestMethod);
